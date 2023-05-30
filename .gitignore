@@ -1,0 +1,4 @@
+siud_backend/node_modules/
+siud/node_modules/
+node_modules/
+siud_backend/.env
