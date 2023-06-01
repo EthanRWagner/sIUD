@@ -32,7 +32,7 @@ function Login(props) {
             <header className='App-header'>LOGIN</header>
             <input type='text' name='username' id='username' value={user.username} onChange={handleChange} className='textfield' placeholder='Enter Username...'></input>
             <input type='text' name='password' id='password' value={user.password} onChange={handleChange} className='textfield' placeholder='Enter Password...'></input>
-            <button onClick={LoginForm} className='submit-button'>SUBMIT</button>
+            <button type='submit' id='submit' onClick={LoginForm} className='submit-button'>SUBMIT</button>
 
             <div className='nav-div'>
                 <small>Don&apos;t Have An Account?&nbsp;</small>

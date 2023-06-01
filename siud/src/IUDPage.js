@@ -17,51 +17,65 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 
 function IUDPage() {
 
+    function randomPos() {
+        let randPos = [];
+        for (var i=0; i<30; i++){
+            randPos.push((Math.random()*20).toFixed(2));
+        }
+        return randPos;
+    }
+
+    function randomBBT() {
+        let randBBT = [];
+        for (var i=0; i<30; i++){
+            randBBT.push(((Math.random()*44)+32).toFixed(2)); 
+        }
+        return randBBT;
+    }
+
+    function randomX() {
+        let randX = [];
+        for (var i=0; i<30; i++){
+            randX.push((Math.random()*15).toFixed(2)); 
+        }
+        return randX;
+    }
+
+    function randomY() {
+        let randY = [];
+        for (var i=0; i<30; i++){
+            randY.push((Math.random()*60).toFixed(2)); 
+        }
+        return randY;
+    }
+
+    function randomZ() {
+        let randZ = [];
+        for (var i=0; i<30; i++){
+            randZ.push((Math.random()*60).toFixed(2)); 
+        }
+        return randZ;
+    }
+
     //example data
     var posTime = [1, 2, 3, 4, 5, 6, 7, 
         8, 9, 10, 11, 12, 13, 14,
         15, 16, 17, 18, 19, 20, 21,
         22, 23, 24, 25, 26, 27, 28, 29, 30];
 
-    var dataTB = [0, 0, 0, 0, 0, 0, 0, 0, 0, 
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 
-        0, 0, 0];
-
-    var dataLR = [4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4, 4, 4, 4, 4, 4, 4, 
-        4, 4, 4];
+    var zeroData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
     var tempTime = [1, 2, 3, 4, 5, 6, 7, 
         8, 9, 10, 11, 12, 13, 14,
         15, 16, 17, 18, 19, 20, 21,
         22, 23, 24, 25, 26, 27, 28, 29, 30];
 
-    var dataBBT = [36.2, 36.4, 36.7, 36.5, 36.9, 36.4, 36.3, 37.1, 37.0, 
-        36.2, 36.4, 36.7, 36.5, 36.9, 36.4, 36.3, 37.1, 37.0, 
-        36.2, 36.4, 36.7, 36.5, 36.9, 36.4, 36.3, 37.1, 37.0, 
-        36.2, 36.4, 36.7];
-
     var rotTime = [1, 2, 3, 4, 5, 6, 7, 
         8, 9, 10, 11, 12, 13, 14,
         15, 16, 17, 18, 19, 20, 21,
         22, 23, 24, 25, 26, 27, 28, 29, 30];
-
-    var dataX = [2, 1, 0, 2, 0, 0, 0, 1, 2, 
-        2, 1, 0, 2, 0, 0, 0, 1, 2, 
-        2, 1, 0, 2, 0, 0, 0, 1, 2, 
-        2, 1, 0];
-
-    var dataY = [22, 43, 26, 34, 33, 25, 38, 40, 22, 
-        22, 43, 26, 34, 33, 25, 38, 40, 22, 
-        22, 43, 26, 34, 33, 25, 38, 40, 22, 
-        22, 43, 26];
-
-    var dataZ = [40, 20, 12, 39, 10, 40, 39, 30, 40, 
-        40, 20, 12, 39, 10, 40, 39, 30, 40, 
-        40, 20, 12, 39, 10, 40, 39, 30, 40, 
-        40, 20, 12];
 
     const navigate = useNavigate();
 
@@ -86,16 +100,16 @@ function IUDPage() {
     let tempData = {time: "No Data Collected",
                     pos: {
                         time: posTime,
-                        tb: dataTB,
-                        lr: dataLR},
+                        tb: zeroData,
+                        lr: zeroData},
                     rot: {
                         time: rotTime,
-                        x: dataX,
-                        y: dataY,
-                        z: dataZ },
+                        x: zeroData,
+                        y: zeroData,
+                        z: zeroData },
                     temp: {
                         time: tempTime,
-                        bbt: dataBBT
+                        bbt: zeroData
                     }};
 
     if(displayData === null){
@@ -105,7 +119,6 @@ function IUDPage() {
     async function getData () {
         try{
             const result = await axios.post(`http://localhost:${port}/getData`, {user: window.sessionStorage.getItem('id')});
-            console.log(result.data);
             window.sessionStorage.setItem("data", JSON.stringify(result.data));
             return result.data;
         }
@@ -118,16 +131,16 @@ function IUDPage() {
         let formattedData = {time: dateTime,
                             pos: {
                                 time: posTime,
-                                tb: dataTB,
-                                lr: dataLR},
+                                tb: randomPos(),
+                                lr: randomPos()},
                             rot: {
                                 time: rotTime,
-                                x: dataX,
-                                y: dataY,
-                                z: dataZ },
+                                x: randomX(),
+                                y: randomY(),
+                                z: randomZ() },
                             temp: {
                                 time: tempTime,
-                                bbt: dataBBT
+                                bbt: randomBBT()
                             }};
         try{
             const result = await axios.post(`http://localhost:${port}/postData`, {data: formattedData, user: window.sessionStorage.getItem('id')});
@@ -165,7 +178,7 @@ function IUDPage() {
             toggleTimerPopup();
             sendData();
             // delay 30 seconds
-            await delay(30000);
+            await delay(5000);
             // get data
             displayData = getData();
             window.location.replace(window.location.href);
@@ -258,7 +271,7 @@ function IUDPage() {
                     <div className="timer-wrapper">
                         <CountdownCircleTimer
                         isPlaying
-                        duration={30}
+                        duration={5}
                         colors={["#254E70"]}
                         >
                         {RenderTime}

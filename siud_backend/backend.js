@@ -53,6 +53,21 @@ app.post("/device", async (req, res) => {
     }
   });
 
+// set device name
+app.post("/setdevice", async (req, res) => {
+  const {device, user} = req.body;
+  let exUser = await userServices.findUserById(user);
+  if(exUser !== null) {
+    if(device !== ""){
+      await userServices.setDevice(exUser.username, device);
+      res.status(202).send("Device Connected!");
+    }
+  }
+  else {
+      res.status(500).send("An error ocurred in the server.");
+  }
+});
+
 // get recently recorded data
 app.post("/getData", async (req, res) => {
     const {user} = req.body;

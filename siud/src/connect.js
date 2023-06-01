@@ -18,7 +18,7 @@ function Connect() {
     
     async function getDeviceName() {
         const device = await axios.post(`http://localhost:${port}/device`, {user: window.sessionStorage.getItem('id')});
-        return device;
+        window.sessionStorage.setItem('device', device.data);
     }
 
     const [popup, setPopup] = useState(false);
@@ -28,12 +28,22 @@ function Connect() {
     }
 
     function popupConnect() {
-        setConnect({device:"admin_device", status: true});
-        //setPopup(!popup);
+        getDeviceName();
+        const device = window.sessionStorage.getItem('device');
+        if(device.length === 0){
+            setPopup(!popup);
+        }
+        else{
+            setConnect({device: device, status: true});
+        }
     }
 
-    function connectIUD(devName) {
+    async function connectIUD(devName) {
+        await axios.post(`http://localhost:${port}/setdevice`, {device: devName, user: window.sessionStorage.getItem('id')});
         setConnect({device: devName, status: true});
+        window.sessionStorage.setItem('device', devName);
+        setPopup(!popup);
+        navigate("../connect");
     }
 
     function disconnectIUD() {
@@ -60,7 +70,7 @@ function Connect() {
                 {connect.status &&
                     <button className='connect-btn' onClick={disconnectIUD}>CONNECT&nbsp;&#x2713;</button>}
 
-                {popup.status &&
+                {popup &&
                         <DeviceForm handleClose={popupConnect} handleConnect={connectIUD}/>
         
                 }
@@ -73,7 +83,7 @@ function Connect() {
                     <br></br>
                     <br></br>
                     {connect.status &&
-                        <t>Device: {getDeviceName}</t>}
+                        <t>Device: {window.sessionStorage.getItem('device')}</t>}
                     {!connect.status &&
                         <t>Device: Not Connected</t>}
                     

@@ -36,7 +36,7 @@ function Register(props) {
             <input type='text' name='username' id='username' value={user.username} onChange={handleChange} className='textfield' placeholder='Enter Username...'></input>
             <input type='text' name='password' id='password' value={user.password} onChange={handleChange} className='textfield' placeholder='Enter Password...'></input>
             <input type='text' name='confirmPassword' id='confirmPassword' value={user.confirmPassword} onChange={handleChange} className='textfield' placeholder='Confirm Password...'></input>
-            <button className='submit-button' onClick={RegisterForm}>SUBMIT</button>
+            <button type='submit' id='submit' className='submit-button' onClick={RegisterForm}>SUBMIT</button>
 
             <div className='nav-div'>
                 <small>Have An Account?&nbsp;</small>
